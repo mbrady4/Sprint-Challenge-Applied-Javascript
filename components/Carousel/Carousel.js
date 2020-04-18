@@ -27,6 +27,10 @@ const carouselCreator = () => {
   leftArrow.classList.add('left-button');
   container.appendChild(leftArrow);
 
+  leftArrow.addEventListener('click', (event) => {
+    advance(-1);
+  })
+
   srcs = ['./assets/carousel/mountains.jpeg',
           './assets/carousel/computer.jpeg',
           './assets/carousel/trees.jpeg',
@@ -35,7 +39,10 @@ const carouselCreator = () => {
   for (let i = 0; i < srcs.length; i++) {
     let image = document.createElement('img');
     image.setAttribute('src', srcs[i]);
-    image.classList.add(i);
+    image.classList.add('carousel-image');
+    if (i == 0) {
+      image.classList.add('show');
+    }
     container.appendChild(image);
   }
 
@@ -43,11 +50,7 @@ const carouselCreator = () => {
   rightArrow.classList.add('right-button');
 
   rightArrow.addEventListener('click', (event) => {
-    currentImage += 1;
-    let clas = ".".concat(currentImage);
-    let old = '.'.concat(currentImage - 1);
-    const nextImage = document.querySelector(clas);
-    nextImage.classList.toggle(old);
+    advance(1);
   })
 
   container.appendChild(rightArrow);
@@ -57,3 +60,20 @@ const carouselCreator = () => {
 
 const carouselContainer = document.querySelector('.carousel-container');
 carouselContainer.appendChild(carouselCreator());
+
+let count = 0
+const advance = (num) => {
+  images = document.getElementsByClassName('carousel-image');
+
+  let currentImage = images[count];
+  currentImage.classList.toggle('show');
+  count += num;
+  if (count > 3) {
+    count = 0;
+  }
+  if (count < 0) {
+    count = 3;
+  }
+  let newImage = images[count];
+  newImage.classList.toggle('show');
+}

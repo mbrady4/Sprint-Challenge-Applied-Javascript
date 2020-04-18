@@ -301,4 +301,8 @@ body {
 }
 .carousel img {
   width: 100%;
+  display: none;
+}
+.carousel .show {
+  display: inline;
 }
