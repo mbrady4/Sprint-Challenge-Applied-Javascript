@@ -19,18 +19,17 @@
 //
 // Use your function to create a card for each of the articles and add the card to the DOM.
 
-const topics = ['javascript', 'bootstrap', 'technology', 'jquery', 'node'];
 axios.get('https://lambda-times-backend.herokuapp.com/articles')
     .then( response => {
         const articles = response.data.articles;
+        console.log(articles);
+        const topics = Object.keys(articles);
         const cardContainer = document.querySelector('.cards-container');
         for (let i = 0; i < topics.length; i++) {
             let topicArticles = articles[topics[i]];
-            // let snip = topicArticles['0'];
-            // console.log(snip);
             topicArticles = Array.from(topicArticles);
             topicArticles.forEach( snippet => {
-                let component = cardCreator(snippet);
+                let component = cardCreator(snippet, topics[i]);
                 cardContainer.appendChild(component);
             });
         }
@@ -39,9 +38,10 @@ axios.get('https://lambda-times-backend.herokuapp.com/articles')
         console.log("Error: ", error);
     })
 
-const cardCreator = (article) => {
+const cardCreator = (article, topic) => {
     const card = document.createElement('div');
     card.classList.add('card');
+    card.setAttribute('data-topic', topic);
 
     const headline = document.createElement('div');
     headline.classList.add('headline');
